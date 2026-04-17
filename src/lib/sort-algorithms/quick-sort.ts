@@ -7,11 +7,11 @@ function* partition(items: number[], left: number, right: number) {
   while (i <= j) {
     while (items[i] < pivot) {
       i++;
-      yield { access: [i, j], sound: i };
+      yield { access: [i, j], sound: i, comparisons: 1, dataAccesses: 2 };
     }
     while (items[j] > pivot) {
       j--;
-      yield { access: [i, j], sound: j };
+      yield { access: [i, j], sound: j, comparisons: 1, dataAccesses: 2 };
     }
     if (i <= j) {
       const temp = items[i];
@@ -19,8 +19,8 @@ function* partition(items: number[], left: number, right: number) {
       items[j] = temp;
       i++;
       j--;
+      yield { access: [i, j], sound: j, comparisons: 0, dataAccesses: 4 };
     }
-    yield { access: [i, j], sound: j };
   }
   return i;
 }

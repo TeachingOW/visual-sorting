@@ -14,7 +14,7 @@ export const cycleSort = function* (arr: number[]): SortingGenerator {
     // count all smaller elements on right side of item.
     let pos = cycle_start;
     for (let i = cycle_start + 1; i < n; i++) {
-      yield { access: [cycle_start, i], sound: i };
+      yield { access: [cycle_start, i], sound: i, comparisons: 1, dataAccesses: 2 };
       if (arr[i] < item) pos++;
     }
 
@@ -26,10 +26,10 @@ export const cycleSort = function* (arr: number[]): SortingGenerator {
 
     // put the item to it's right position
     if (pos != cycle_start) {
-      //   yield { access: [cycle_start, pos], sound: pos };
       const temp = item;
       item = arr[pos];
       arr[pos] = temp;
+      yield { access: [cycle_start, pos], sound: pos, comparisons: 0, dataAccesses: 2 };
     }
 
     // Rotate rest of the cycle
@@ -38,7 +38,7 @@ export const cycleSort = function* (arr: number[]): SortingGenerator {
 
       // Find position where we put the element
       for (let i = cycle_start + 1; i < n; i++) {
-        yield { access: [cycle_start, i], sound: i };
+        yield { access: [cycle_start, i], sound: i, comparisons: 1, dataAccesses: 2 };
         if (arr[i] < item) pos += 1;
       }
 
@@ -47,10 +47,10 @@ export const cycleSort = function* (arr: number[]): SortingGenerator {
 
       // put the item to it's right position
       if (item != arr[pos]) {
-        // yield { access: [cycle_start, pos], sound: pos };
         const temp = item;
         item = arr[pos];
         arr[pos] = temp;
+        yield { access: [cycle_start, pos], sound: pos, comparisons: 0, dataAccesses: 2 };
       }
     }
   }

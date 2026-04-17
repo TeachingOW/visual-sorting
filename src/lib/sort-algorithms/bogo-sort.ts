@@ -2,7 +2,7 @@ import type { SortingGenerator } from './types';
 
 function* isSorted(arr: number[]) {
   for (let i = 1; i < arr.length; i++) {
-    yield { access: [i], sound: i };
+    yield { access: [i], sound: i, comparisons: 1, dataAccesses: 2 };
     if (arr[i] < arr[i - 1]) return false;
   }
   return true;
@@ -12,7 +12,7 @@ function* isSorted(arr: number[]) {
 function* shuffle(arr: number[]) {
   for (let i = 0; i < arr.length; i++) {
     const ind = Math.floor(Math.random() * arr.length);
-    yield { access: [arr.length - i - 1, ind], sound: ind };
+    yield { access: [arr.length - i - 1, ind], sound: ind, comparisons: 0, dataAccesses: 4 };
 
     const temp = arr[arr.length - i - 1];
     arr[arr.length - i - 1] = arr[ind];

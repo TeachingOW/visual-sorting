@@ -1,10 +1,10 @@
-import type { SortingGenerator } from './types';
-
 /**
  * The size at or below which a run is considered "small" and
  * will be extended using insertion sort rather than merges.
  * Traditionally, Timsort uses a minRun between 32 and 64.
  */
+import type { SortingGenerator } from './types';
+
 const MIN_MERGE = 32;
 
 /**
@@ -39,7 +39,7 @@ function* insertionSort(
     const temp = arr[i];
     let j = i - 1;
     while (j >= start && arr[j] > temp) {
-      yield { access: [i, j], sound: j };
+      yield { access: [i, j], sound: j, comparisons: 1, dataAccesses: 3 };
       arr[j + 1] = arr[j];
       j--;
     }
@@ -60,7 +60,7 @@ function* countRunAndMakeAscending(
   arr: number[],
   start: number,
   n: number
-): SortingGenerator<number> {
+): Generator<import('../types').ProgressIndicator, number, unknown> {
   let runEnd = start + 1;
   if (runEnd === n) {
     // Single element run
@@ -68,17 +68,17 @@ function* countRunAndMakeAscending(
   }
 
   // Determine if run is ascending or descending
-  yield { access: [start, runEnd], sound: runEnd };
+  yield { access: [start, runEnd], sound: runEnd, comparisons: 1, dataAccesses: 2 };
   if (arr[start] <= arr[runEnd]) {
     // Ascending run
     while (runEnd < n - 1 && arr[runEnd] <= arr[runEnd + 1]) {
-      yield { access: [runEnd, runEnd + 1], sound: runEnd + 1 };
+      yield { access: [runEnd, runEnd + 1], sound: runEnd + 1, comparisons: 1, dataAccesses: 2 };
       runEnd++;
     }
   } else {
     // Descending run
     while (runEnd < n - 1 && arr[runEnd] > arr[runEnd + 1]) {
-      yield { access: [runEnd, runEnd + 1], sound: runEnd + 1 };
+      yield { access: [runEnd, runEnd + 1], sound: runEnd + 1, comparisons: 1, dataAccesses: 2 };
       runEnd++;
     }
 
@@ -86,7 +86,7 @@ function* countRunAndMakeAscending(
     let left = start;
     let right = runEnd;
     while (left < right) {
-      yield { access: [left, right], sound: left };
+      yield { access: [left, right], sound: left, comparisons: 0, dataAccesses: 4 };
       [arr[left], arr[right]] = [arr[right], arr[left]];
       left++;
       right--;
@@ -124,7 +124,7 @@ function* merge(
   let k = start;
 
   while (i < len1 && j < len2) {
-    yield { access: [k], sound: k };
+    yield { access: [k], sound: k, comparisons: 1, dataAccesses: 3 };
     if (left[i] <= right[j]) {
       arr[k++] = left[i++];
     } else {
@@ -133,12 +133,12 @@ function* merge(
   }
 
   while (i < len1) {
-    yield { access: [k], sound: k };
+    yield { access: [k], sound: k, comparisons: 0, dataAccesses: 1 };
     arr[k++] = left[i++];
   }
 
   while (j < len2) {
-    yield { access: [k], sound: k };
+    yield { access: [k], sound: k, comparisons: 0, dataAccesses: 1 };
     arr[k++] = right[j++];
   }
 }
@@ -150,7 +150,7 @@ function* merge(
  * 1. Calculate minRun.
  * 2. Identify natural runs, extend them to length at least minRun with insertion sort.
  * 3. Push these runs to a stack.
- * 4. Merge runs from the stack according to Timsort’s merge rules until only one run remains.
+ * 4. Merge runs from the stack according to Timsort's merge rules until only one run remains.
  */
 export function* timSort(arr: number[]): SortingGenerator {
   const n = arr.length;
@@ -235,7 +235,7 @@ function* doMerge(
   const [base1, len1] = runStack[i];
   const [base2, len2] = runStack[j];
 
-  yield { access: [base1, base2], sound: base2 };
+  yield { access: [base1, base2], sound: base2, comparisons: 0, dataAccesses: 0 };
 
   // Merge runs arr[base1..base1+len1-1] and arr[base2..base2+len2-1]
   yield* merge(arr, base1, base1 + len1 - 1, base1 + len1 + len2 - 1);

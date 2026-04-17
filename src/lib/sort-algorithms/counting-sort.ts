@@ -20,7 +20,7 @@ export const countingSort = function* (arr: number[]): SortingGenerator {
   // Find the maximum value in the array
   let max = arr[0];
   for (let i = 1; i < arr.length; i++) {
-    yield { access: [i], sound: i };
+    yield { access: [i], sound: i, comparisons: 1, dataAccesses: 2 };
     if (arr[i] > max) {
       max = arr[i];
     }
@@ -31,13 +31,13 @@ export const countingSort = function* (arr: number[]): SortingGenerator {
 
   // Count the frequency of each element
   for (let i = 0; i < arr.length; i++) {
-    yield { access: [i], sound: i };
+    yield { access: [i], sound: i, comparisons: 0, dataAccesses: 1 };
     count[arr[i]]++;
   }
 
   // Modify count array to store cumulative count
   for (let i = 1; i <= max; i++) {
-    yield { access: [i - 1], sound: i - 1 };
+    yield { access: [i - 1], sound: i - 1, comparisons: 0, dataAccesses: 0 };
     count[i] += count[i - 1];
   }
 
@@ -46,14 +46,14 @@ export const countingSort = function* (arr: number[]): SortingGenerator {
 
   // Build the output array
   for (let i = arr.length - 1; i >= 0; i--) {
-    yield { access: [i], sound: i };
+    yield { access: [i], sound: i, comparisons: 0, dataAccesses: 1 };
     output[count[arr[i]] - 1] = arr[i];
     count[arr[i]]--;
   }
 
   // Copy the output array back to the original array
   for (let i = 0; i < arr.length; i++) {
-    yield { access: [i], sound: i };
+    yield { access: [i], sound: i, comparisons: 0, dataAccesses: 1 };
     arr[i] = output[i];
   }
 };

@@ -3,7 +3,7 @@ import type { SortingGenerator } from './types';
 const getMax = function* (arr: number[], n: number) {
   let mx = arr[0];
   for (let i = 1; i < n; i++) {
-    yield { access: [i], sound: i };
+    yield { access: [i], sound: i, comparisons: 1, dataAccesses: 2 };
     if (arr[i] > mx) {
       mx = arr[i];
     }
@@ -26,7 +26,7 @@ const countSort = function* (
   for (i = 0; i < n; i++) {
     const x = Math.floor(arr[i] / exp) % 10;
     count[x]++;
-    yield { access: [i], sound: i };
+    yield { access: [i], sound: i, comparisons: 0, dataAccesses: 1 };
   }
 
   // Change count[i] so that count[i] now contains
@@ -38,14 +38,14 @@ const countSort = function* (
     const x = Math.floor(arr[i] / exp) % 10;
     output[count[x] - 1] = arr[i];
     count[x]--;
-    yield { access: [i], sound: i };
+    yield { access: [i], sound: i, comparisons: 0, dataAccesses: 1 };
   }
 
   // Copy the output array to arr[], so that arr[] now
   // contains sorted numbers according to current digit
   for (i = 0; i < n; i++) {
     arr[i] = output[i];
-    yield { access: [i], sound: i };
+    yield { access: [i], sound: i, comparisons: 0, dataAccesses: 1 };
   }
 };
 

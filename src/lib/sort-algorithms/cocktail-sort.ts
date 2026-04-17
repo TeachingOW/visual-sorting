@@ -14,12 +14,13 @@ export const cocktailSort = function* (a: number[]): SortingGenerator {
     // loop from bottom to top same as
     // the bubble sort
     for (let i = start; i < end - 1; ++i) {
-      yield { access: [i, i + 1], sound: i + 1 };
+      yield { access: [i, i + 1], sound: i + 1, comparisons: 1, dataAccesses: 2 };
       if (a[i] > a[i + 1]) {
         const temp = a[i];
         a[i] = a[i + 1];
         a[i + 1] = temp;
         swapped = true;
+        yield { access: [i, i + 1], sound: i + 1, comparisons: 0, dataAccesses: 4 };
       }
     }
 
@@ -37,12 +38,13 @@ export const cocktailSort = function* (a: number[]): SortingGenerator {
     // from top to bottom, doing the
     // same comparison as in the previous stage
     for (let i = end - 1; i >= start; i--) {
-      yield { access: [i, i + 1], sound: i };
+      yield { access: [i, i + 1], sound: i, comparisons: 1, dataAccesses: 2 };
       if (a[i] > a[i + 1]) {
         const temp = a[i];
         a[i] = a[i + 1];
         a[i + 1] = temp;
         swapped = true;
+        yield { access: [i, i + 1], sound: i, comparisons: 0, dataAccesses: 4 };
       }
     }
 

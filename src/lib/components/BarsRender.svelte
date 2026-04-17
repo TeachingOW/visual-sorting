@@ -21,7 +21,7 @@
       if (bars[currentBar].access) {
         context.fillStyle = theme.accent;
       } else if (currentBar === bars[currentBar].value - 1) {
-        context.fillStyle = theme.primary;
+        context.fillStyle = theme.success || theme.primary;
       } else {
         context.fillStyle = theme["neutral-content"] || theme["neutral"];
       }
@@ -39,6 +39,24 @@
   };
 </script>
 
-<Canvas autoplay>
-  <Layer {render} />
-</Canvas>
+<div class="flex flex-col w-full h-full">
+  <div class="flex gap-4 mb-1 text-xs flex-wrap">
+    <span class="flex items-center gap-1">
+      <span class="inline-block w-3 h-3 rounded-sm" style="background: {theme?.accent}"></span>
+      Accessed
+    </span>
+    <span class="flex items-center gap-1">
+      <span class="inline-block w-3 h-3 rounded-sm" style="background: {theme?.success || theme?.primary}"></span>
+      Sorted
+    </span>
+    <span class="flex items-center gap-1">
+      <span class="inline-block w-3 h-3 rounded-sm" style="background: {theme?.['neutral-content'] || theme?.neutral}"></span>
+      Unsorted
+    </span>
+  </div>
+  <div class="flex-1">
+    <Canvas autoplay>
+      <Layer {render} />
+    </Canvas>
+  </div>
+</div>
