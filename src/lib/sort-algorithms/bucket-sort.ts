@@ -43,11 +43,13 @@ export const bucketSort = function* (arr: number[]): SortingGenerator {
   for (let b = 0; b < bucketCount; b++) {
     const bucket = buckets[b];
 
-    // Insertion sort within bucket
+    // Insertion sort within bucket — yield for each comparison/shift
     for (let i = 1; i < bucket.length; i++) {
       const key = bucket[i];
       let j = i - 1;
+      // We track the bucket's position in the overall array as pos + i
       while (j >= 0 && bucket[j] > key) {
+        yield { access: [pos + j, pos + j + 1], sound: pos + j + 1, comparisons: 1, dataAccesses: 3 };
         bucket[j + 1] = bucket[j];
         j--;
       }

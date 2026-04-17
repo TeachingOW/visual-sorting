@@ -1,10 +1,11 @@
+import type { ProgressIndicator } from '../types';
+import type { SortingGenerator } from './types';
+
 /**
  * The size at or below which a run is considered "small" and
  * will be extended using insertion sort rather than merges.
  * Traditionally, Timsort uses a minRun between 32 and 64.
  */
-import type { SortingGenerator } from './types';
-
 const MIN_MERGE = 32;
 
 /**
@@ -60,7 +61,7 @@ function* countRunAndMakeAscending(
   arr: number[],
   start: number,
   n: number
-): Generator<import('../types').ProgressIndicator, number, unknown> {
+): Generator<ProgressIndicator, number, unknown> {
   let runEnd = start + 1;
   if (runEnd === n) {
     // Single element run
