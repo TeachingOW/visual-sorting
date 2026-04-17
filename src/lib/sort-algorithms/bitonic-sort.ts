@@ -10,12 +10,13 @@ const compAndSwap = function* (
   j: number,
   dir: number
 ): SortingGenerator {
+  yield { access: [i, j], sound: i, comparisons: 1, dataAccesses: 2 };
   if ((arr[i] > arr[j] && dir === 1) || (arr[i] < arr[j] && dir === 0)) {
-    yield { access: [i, j], sound: i };
     // Swapping elements
     const temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
+    yield { access: [i, j], sound: i, comparisons: 0, dataAccesses: 4 };
   }
 };
 

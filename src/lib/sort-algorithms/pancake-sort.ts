@@ -7,7 +7,7 @@ function* flip(arr: number[], i: number) {
   let temp,
     start = 0;
   while (start < i) {
-    yield { access: [start, i], sound: i };
+    yield { access: [start, i], sound: i, comparisons: 0, dataAccesses: 4 };
 
     temp = arr[start];
     arr[start] = arr[i];
@@ -23,7 +23,7 @@ function* flip(arr: number[], i: number) {
 function* findMax(arr: number[], n: number) {
   let mi, i;
   for (mi = 0, i = 0; i < n; ++i) {
-    yield { access: [i, mi], sound: i };
+    yield { access: [i, mi], sound: i, comparisons: 1, dataAccesses: 2 };
 
     if (arr[i] > arr[mi]) {
       mi = i;

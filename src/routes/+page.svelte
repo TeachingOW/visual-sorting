@@ -13,6 +13,8 @@
   import RangeDelay from '../lib/components/RangeDelay.svelte';
   import Footer from '../lib/components/Footer.svelte';
   import BarsRender from '../lib/components/BarsRender.svelte';
+  import SortStats from '../lib/components/SortStats.svelte';
+  import AlgorithmInfoPanel from '../lib/components/AlgorithmInfoPanel.svelte';
   import type {
     AlgorithmDefinition,
     SortingGenerator,
@@ -32,6 +34,9 @@
   let intervalRef: number;
   let algorithm: AlgorithmDefinition & { instance: SortingGenerator };
   let oscillatorType: OscillatorType = 'triangle';
+
+  let totalComparisons = 0;
+  let totalDataAccesses = 0;
 
   onMount(() => {
     themeChange(false);
@@ -95,6 +100,8 @@
   }
 
   const updateBars = (b: number[], p: ProgressIndicator) => {
+    totalComparisons += p.comparisons ?? 0;
+    totalDataAccesses += p.dataAccesses ?? 0;
     bars = [...b].map((v, i) => ({
       value: v,
       access: p.access.includes(i),
@@ -103,6 +110,8 @@
   };
 
   const reset = () => {
+    totalComparisons = 0;
+    totalDataAccesses = 0;
     updateBars($arrayToSort, { access: [] });
     $running = false;
     if (algorithm) {
@@ -148,6 +157,9 @@
       <Header bind:selectedTheme bind:oscillatorType />
     </div>
     <div class="flex-1 flex flex-col m-2 md:m-5">
+      <div class="flex justify-between items-center mb-1">
+        <SortStats comparisons={totalComparisons} dataAccesses={totalDataAccesses} />
+      </div>
       <div id="bars-container" class="flex flex-grow min-h-80">
         <BarsRender {bars} {theme} />
       </div>
@@ -186,6 +198,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="mx-2 mb-2 md:mx-5 md:mb-5">
+      <AlgorithmInfoPanel algorithm={algorithm} />
     </div>
     <Footer />
   </div>

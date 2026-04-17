@@ -1,3 +1,4 @@
+import type { ProgressIndicator } from '../types';
 import type { SortingGenerator } from './types';
 
 /**
@@ -62,25 +63,25 @@ function* partition(
 
   // Move pivot to end
   [arr[pivotIndex], arr[high]] = [arr[high], arr[pivotIndex]];
-  yield { access: [pivotIndex, high], sound: high };
+  yield { access: [pivotIndex, high], sound: high, comparisons: 0, dataAccesses: 4 };
 
   let i = low - 1;
 
   for (let j = low; j < high; j++) {
-    yield { access: [j], sound: j };
+    yield { access: [j], sound: j, comparisons: 1, dataAccesses: 2 };
 
     if (arr[j] <= pivot) {
       i++;
       if (i !== j) {
         [arr[i], arr[j]] = [arr[j], arr[i]];
-        yield { access: [i, j], sound: j };
+        yield { access: [i, j], sound: j, comparisons: 0, dataAccesses: 4 };
       }
     }
   }
 
   // Move pivot to its correct position
   [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
-  yield { access: [i + 1, high], sound: high };
+  yield { access: [i + 1, high], sound: high, comparisons: 0, dataAccesses: 4 };
 
   return i + 1;
 }
@@ -94,17 +95,17 @@ function* insertionSort(
     const key = arr[i];
     let j = i - 1;
 
-    yield { access: [i], sound: i };
+    yield { access: [i], sound: i, comparisons: 0, dataAccesses: 1 };
 
     while (j >= low && arr[j] > key) {
-      yield { access: [j, j + 1], sound: j + 1 };
+      yield { access: [j, j + 1], sound: j + 1, comparisons: 1, dataAccesses: 3 };
       arr[j + 1] = arr[j];
       j--;
     }
 
     if (j + 1 !== i) {
       arr[j + 1] = key;
-      yield { access: [j + 1], sound: j + 1 };
+      yield { access: [j + 1], sound: j + 1, comparisons: j >= low ? 1 : 0, dataAccesses: 1 };
     }
   }
 }
@@ -125,7 +126,7 @@ function* heapSortRange(
   for (let i = n - 1; i > 0; i--) {
     // Move current root to end
     [arr[low], arr[low + i]] = [arr[low + i], arr[low]];
-    yield { access: [low, low + i], sound: low + i };
+    yield { access: [low, low + i], sound: low + i, comparisons: 0, dataAccesses: 4 };
 
     // Call heapify on the reduced heap
     yield* heapify(arr, low, i, 0);
@@ -145,14 +146,20 @@ function* heapify(
   if (left < n && arr[low + left] > arr[low + largest]) {
     largest = left;
   }
+  if (left < n) {
+    yield { access: [low + left, low + largest], sound: low + left, comparisons: 1, dataAccesses: 2 };
+  }
 
   if (right < n && arr[low + right] > arr[low + largest]) {
     largest = right;
   }
+  if (right < n) {
+    yield { access: [low + right, low + largest], sound: low + right, comparisons: 1, dataAccesses: 2 };
+  }
 
   if (largest !== i) {
     [arr[low + i], arr[low + largest]] = [arr[low + largest], arr[low + i]];
-    yield { access: [low + i, low + largest], sound: low + largest };
+    yield { access: [low + i, low + largest], sound: low + largest, comparisons: 0, dataAccesses: 4 };
 
     yield* heapify(arr, low, n, largest);
   }

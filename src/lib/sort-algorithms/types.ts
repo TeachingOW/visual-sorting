@@ -14,4 +14,9 @@ export type AlgorithmDefinition = {
   function: (arr: number[]) => SortingGenerator;
   arraySizeComponent?: typeof SvelteComponent<{ size: number }>;
   badge?: string;
+  description?: string;
+  timeComplexity?: string;
+  spaceComplexity?: string;
+  pseudocode?: string;
+  cppCode?: string;
 };

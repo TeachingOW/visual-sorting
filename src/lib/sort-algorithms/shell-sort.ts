@@ -9,13 +9,11 @@ export const shellSort = function* (arr: number[]): SortingGenerator {
       let j;
       for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
         arr[j] = arr[j - gap];
-
-        yield { access: [i, j - gap], sound: j - gap };
+        yield { access: [i, j - gap], sound: j - gap, comparisons: 1, dataAccesses: 3 };
       }
 
       arr[j] = temp;
-
-      yield { access: [i, j], sound: j };
+      yield { access: [i, j], sound: j, comparisons: j >= gap ? 1 : 0, dataAccesses: 1 };
     }
   }
 };
