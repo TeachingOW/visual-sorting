@@ -1,5 +1,7 @@
 # 🔮 🔈 Visual Sorting aka The Sound Of Sorting
 
+> **Note:** This is a fork of [mszula/visual-sorting](https://github.com/mszula/visual-sorting) with additional modifications and enhancements.
+
 Visual Sorting is a tool that provides a visualization of sorting algorithms, accompanied by an auditory experience. It allows users to witness how various sorting algorithms work through dynamic horizontal bars.
 
 https://github.com/user-attachments/assets/2b9674c5-c705-4a22-ba6a-474cfc11cddd
@@ -77,4 +79,4 @@ And that's it 😄
 
 ## 📄 License
 
-[ISC](https://github.com/mszula/visual-sorting/blob/main/LICENSE) © 2024 Mateusz Szuła
+[ISC](LICENSE) © 2024 Mateusz Szuła, TeachingOW
