@@ -23,8 +23,7 @@
   import { soundStart, soundStop, type OscillatorType } from '../lib/sound';
   import { browser } from '$app/environment';
   import MobileAlgorithmSelector from '$lib/components/mobile/MobileAlgorithmSelector.svelte';
-  import LeaveAStarModal from '$lib/components/LeaveAStarModal.svelte';
-  import KoFiSupportModal from '$lib/components/KoFiSupportModal.svelte';
+  
   import { algorithms } from '$lib/sort-algorithms/algorithms';
 
   let selectedTheme: Theme = 'dim';
@@ -204,6 +203,5 @@
     </div>
     <Footer />
   </div>
-  <LeaveAStarModal />
-  <KoFiSupportModal />
+  
 </main>
