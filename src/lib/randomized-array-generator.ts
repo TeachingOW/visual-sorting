@@ -11,9 +11,10 @@ export const shuffle = <T>(array: Array<T>): Array<T> => {
 };
 
 export const almostSorted = (size: number, radius: number): number[] => {
+  const r = Math.max(2, radius);
   const array = generateArray(size);
   for (let i = 0; i < size; i++) {
-    const j = Math.min(i + Math.floor(Math.random() * radius), size - 1);
+    const j = Math.min(i + 1 + Math.floor(Math.random() * (r - 1)), size - 1);
     [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
