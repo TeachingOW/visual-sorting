@@ -3,8 +3,6 @@
   import { type OscillatorType } from '../sound';
   import HeaderThemeControl from './HeaderThemeControl.svelte';
   import { base } from '$app/paths';
-  import HeaderGitHubButton from './HeaderGitHubButton.svelte';
-  import HeaderCoffeeButton from './HeaderCoffeeButton.svelte';
   import MobileHeaderButtons from './mobile/MobileHeaderButtons.svelte';
 
   export let selectedTheme: string;
@@ -25,8 +23,7 @@
       <li><HeaderSoundControl bind:oscillatorType /></li>
       <li><HeaderThemeControl bind:selectedTheme /></li>
     </ul>
-    <HeaderGitHubButton />
-    <HeaderCoffeeButton />
+    
   </div>
 
   <MobileHeaderButtons bind:oscillatorType bind:selectedTheme />
