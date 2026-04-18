@@ -8,7 +8,7 @@ https://github.com/user-attachments/assets/2b9674c5-c705-4a22-ba6a-474cfc11cddd
 
 ## 🚀 Play with it
 
-[https://mszula.github.io/visual-sorting/](https://mszula.github.io/visual-sorting/)
+https://teachingow.github.io/visual-sorting/
 
 ## 🌟 Features
 
@@ -71,11 +71,7 @@ Start the project:
 npm run dev
 ```
 
-And that's it 😄
 
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=mszula/visual-sorting&type=Date)](https://star-history.com/#mszula/visual-sorting&Date)
 
 ## 📄 License
 
