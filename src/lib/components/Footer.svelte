@@ -7,8 +7,7 @@
         class="link"
         href="https://github.com/mszula"
         target="_blank"
-        on:click={handleGitHubClick}>mszula</a
-      >
+        >mszula</a>
       
       using Svelte.
       <span class="text-xs opacity-30"
