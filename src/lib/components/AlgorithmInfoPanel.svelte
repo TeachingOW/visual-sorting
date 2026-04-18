@@ -2,10 +2,6 @@
   import type { AlgorithmDefinition } from '../sort-algorithms/types';
 
   export let algorithm: AlgorithmDefinition | undefined;
-
-  let activeTab: 'description' | 'pseudocode' | 'cpp' = 'description';
-
-  $: if (algorithm) activeTab = 'description';
 </script>
 
 {#if algorithm && (algorithm.description || algorithm.pseudocode || algorithm.cppCode)}
@@ -20,46 +16,25 @@
       {/if}
     </div>
 
-    <div role="tablist" class="tabs tabs-bordered tabs-sm mb-3">
+    <div class="grid gap-4 lg:grid-cols-3">
       {#if algorithm.description}
-        <button
-          role="tab"
-          class="tab {activeTab === 'description' ? 'tab-active' : ''}"
-          on:click={() => (activeTab = 'description')}
-        >
-          Description
-        </button>
+        <section class="flex min-h-0 flex-col rounded bg-base-200 p-3">
+          <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide opacity-70">Description</h3>
+          <p class="text-sm leading-relaxed">{algorithm.description}</p>
+        </section>
       {/if}
       {#if algorithm.pseudocode}
-        <button
-          role="tab"
-          class="tab {activeTab === 'pseudocode' ? 'tab-active' : ''}"
-          on:click={() => (activeTab = 'pseudocode')}
-        >
-          Pseudocode
-        </button>
+        <section class="flex min-h-0 flex-col rounded bg-base-200 p-3">
+          <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide opacity-70">Pseudocode</h3>
+          <pre class="flex-1 overflow-x-auto whitespace-pre text-xs leading-5">{algorithm.pseudocode}</pre>
+        </section>
       {/if}
       {#if algorithm.cppCode}
-        <button
-          role="tab"
-          class="tab {activeTab === 'cpp' ? 'tab-active' : ''}"
-          on:click={() => (activeTab = 'cpp')}
-        >
-          C++ Code
-        </button>
+        <section class="flex min-h-0 flex-col rounded bg-base-200 p-3">
+          <h3 class="mb-2 text-sm font-semibold uppercase tracking-wide opacity-70">C++ Code</h3>
+          <pre class="flex-1 overflow-x-auto whitespace-pre text-xs leading-5">{algorithm.cppCode}</pre>
+        </section>
       {/if}
     </div>
-
-    {#if activeTab === 'description' && algorithm.description}
-      <p class="text-sm leading-relaxed">{algorithm.description}</p>
-    {/if}
-
-    {#if activeTab === 'pseudocode' && algorithm.pseudocode}
-      <pre class="text-xs bg-base-200 rounded p-3 overflow-x-auto whitespace-pre leading-5">{algorithm.pseudocode}</pre>
-    {/if}
-
-    {#if activeTab === 'cpp' && algorithm.cppCode}
-      <pre class="text-xs bg-base-200 rounded p-3 overflow-x-auto whitespace-pre leading-5">{algorithm.cppCode}</pre>
-    {/if}
   </div>
 {/if}
