@@ -4,8 +4,10 @@
   export let reset: () => void;
 
   import { arrayToSort, running } from '../../states';
-  import { generateArray, shuffle } from '../randomized-array-generator';
+  import { generateArray, shuffle, almostSorted } from '../randomized-array-generator';
   import { trackEvent } from '../umami';
+
+  let radius = 10;
 
   const start = () => {
     $running = !$running;
@@ -50,6 +52,12 @@
     trackEvent('array-pattern', { pattern: 'mountain' });
   };
 
+  const almostSortedClick = () => {
+    $arrayToSort = almostSorted(size, radius);
+    reset();
+    trackEvent('array-pattern', { pattern: 'almost-sorted' });
+  };
+
   const stepClick = () => {
     step();
   };
@@ -72,4 +80,21 @@
   <button class="btn" on:click={reverse}>Reverse</button>
   <button class="btn" on:click={valley}>Valley</button>
   <button class="btn" on:click={mountain}>Mountain</button>
+  <button class="btn" on:click={almostSortedClick}>Almost Sorted</button>
+</div>
+<div class="mt-1">
+  <label class="form-control w-full max-w-xs">
+    <div class="label py-0">
+      <span class="label-text text-xs">Almost sorted radius</span>
+      <span class="label-text-alt text-xs">{radius}</span>
+    </div>
+    <input
+      class="range range-xs"
+      type="range"
+      min="2"
+      max="50"
+      bind:value={radius}
+      disabled={$running}
+    />
+  </label>
 </div>
