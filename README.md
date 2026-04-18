@@ -79,4 +79,4 @@ And that's it 😄
 
 ## 📄 License
 
-[ISC](LICENSE) © 2024 Mateusz Szuła, TeachingOW
+[ISC](LICENSE) © 2026 Mateusz Szuła, TeachingOW
